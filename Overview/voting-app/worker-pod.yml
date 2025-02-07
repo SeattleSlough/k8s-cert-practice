@@ -9,4 +9,4 @@ metadata:
 spec:
   containers:
     - name: worker-pod
-      image: kodekloud/examplevotingapp_worker:v1
+      image: kodekloud/examplevotingapp_worker # this image is crashLoopBackoff...no substitute
