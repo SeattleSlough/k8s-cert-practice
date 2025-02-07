@@ -4,8 +4,9 @@ metadata:
   name: worker-pod
   labels:
     type: backend
-    name: worker
+    name: worker-pod
+    app: demo-voting-app
 spec:
   containers:
-    - name: worker
+    - name: worker-pod
       image: kodekloud/examplevotingapp_worker:v1
