@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db
+  labels:
+    type: backend
+    name: db
+spec:
+  containers:
+    - name: db
+      image: postgresql
