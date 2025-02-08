@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: demo-voting-app
       name: voting-pod
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       name: voting-app
