@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: postges-pod
+      name: postgres-pod
       app: demo-voting-app
   replicas: 1
   template:
