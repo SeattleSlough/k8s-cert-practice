@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-1
+  labels:
+    env: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      name: ubuntu
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          command: ["cat"]
+          args: ["etc/*release*"]
+          envFrom:
+            - configMapRef:
+                name: app-config1
+
+

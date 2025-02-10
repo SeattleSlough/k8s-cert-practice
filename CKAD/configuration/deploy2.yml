@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy2
+  labels:
+    env: dev
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      name: mysql-pod
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql
+          ports:
+            - containerPort: 3063
+          command: ["mysql"]
+          args: [""]
+          envFrom:
+            - configMapRef:
+                name: config2
+            - secretRef:
+                name: secret1
