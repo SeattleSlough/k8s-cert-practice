@@ -27,17 +27,22 @@ spec:
                 name: app-config1
           securityContext:
             runAsUser: bar  # takes precedent over pod level context
-            capabilities:
+            capabilities:  # which admin capabilities are getting added or dropped
               add: ["MAC_ADMIN"]
               drop: ["something else"]
           requirements:
-            defautRequest:
-            request:
+            requests:
               cpu: 500mi
               memory: 1 Gi
-            max:
-              cpu: 1
-              memory: 2 Gi
+            resources: # stadard resource setting
+              requests:
+                cpu:
+                memory:
+              limits:
+                cpu:
+                memory:
+      serviceAccountName: <sa-name>
+      automountServiceAccountToken: # true/fals - true by default
       securityContext:
         runAsUser: foo
         capabilities:
