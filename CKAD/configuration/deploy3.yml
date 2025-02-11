@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-1
+  labels:
+    env: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      name: ubuntu
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          command: ["cat"]
+          args: ["etc/*release*"]
+          envFrom:
+            - configMapRef:
+                name: app-config1
+          securityContext:
+            runAsUser: bar  # takes precedent over pod level context
+            capabilities:
+              add: ["MAC_ADMIN"]
+              drop: ["something else"]
+          requirements:
+            defautRequest:
+            request:
+              cpu: 500mi
+              memory: 1 Gi
+            max:
+              cpu: 1
+              memory: 2 Gi
+      securityContext:
+        runAsUser: foo
+        capabilities:
+          add: ["capability"]
+          drop: ["capability"]
+
+      tolerations:  # requires the node(s) to be tainted  --> kubectl taint nodes <node-name> key=value:effect
+        - key: "app"  # arbitrary
+          operator: "Equal"  # condition
+          value: "blue"  # arbitrary
+          effect: "NoSchedule"   # PreferNoSchedule  NoExecute are other options
+
+
+
