@@ -28,3 +28,4 @@ spec:
                 name: config2
             - secretRef:
                 name: secret1
+

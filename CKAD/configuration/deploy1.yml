@@ -25,5 +25,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: app-config1
+          securityContext:
+            runAsUser: 1000
+            capabilities:
+              add: ["MAC_ADMIN"]
+              drop:
+          resources:
+            requests:
+              cpu: 100m # same as 0.1
+              memory: "1Gi"
+            limits:
+              cpu: 2
+              memory: "2Gi"
 
 
