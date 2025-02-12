@@ -30,25 +30,15 @@ spec:
             capabilities:  # which admin capabilities are getting added or dropped
               add: ["MAC_ADMIN"]
               drop: ["something else"]
-          requirements:
+          resources:
             requests:
               cpu: 500mi
               memory: 1 Gi
-            resources: # stadard resource setting
-              requests:
-                cpu:
-                memory:
-              limits:
-                cpu:
-                memory:
+            limits:
+              cpu: 1
+              memory: 2 Gi
       serviceAccountName: <sa-name>
-      automountServiceAccountToken: # true/fals - true by default
-      securityContext:
-        runAsUser: foo
-        capabilities:
-          add: ["capability"]
-          drop: ["capability"]
-
+      automountServiceAccountToken: true # true/fals - true by default
       tolerations:  # requires the node(s) to be tainted  --> kubectl taint nodes <node-name> key=value:effect
         - key: "app"  # arbitrary
           operator: "Equal"  # condition

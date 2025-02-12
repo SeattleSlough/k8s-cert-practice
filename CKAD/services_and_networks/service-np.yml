@@ -1,0 +1,12 @@
+apiVersion:
+kind: Service
+metadata:
+  name: my-node-port
+spec:
+  ports:
+    - targetPort: 80
+      port: 80
+      nodePort: 30008   # valid range: 30000 - 32767
+  type: NodePort
+  selector:
+    app: backend
