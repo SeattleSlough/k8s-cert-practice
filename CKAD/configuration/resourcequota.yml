@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: dev-resource-quota
+  namespace: dev
+spec:
+  hard:
+    requests.cpu: 4
+    requests.memory: 4 Gi
+    limits.cpu: 10
+    limits.memory: 10 Gi
+
+# Resource Quoata are applied at the namespace level and applies to all pod activity in the cluster
