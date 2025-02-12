@@ -2,7 +2,20 @@ apiVersion: extentions/v1beta1 # this is unique to nginx, might vary for other c
 kind: Ingress
 metadata:
   name: ingress-frontend-app
+  annotations:
+    nginx.kubernetes.io/use-reg-ex: "true"
 spec:
-  backend:
-    serviceName: fromtend-app-service
-    servicePort: 80
+  tls: # this is how https gets set up
+    - hosts:
+      - example.com
+      secretName: example-secret
+  rules:
+  - http:
+      paths:
+      - path: /.*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: deployment-service
+            port:
+              number: 80

@@ -3,14 +3,43 @@ kind: Ingress
 metadata:
   name: ingress-by-url
 spec:
+  tls:
+    - hosts:
+      - baz.foo.com
+      - bar.fizz.com
+      secretName: example-secret
   rules:
-    - http:
+    - host: baz.foo.com
+      http:
         paths:
-        - path: /foo-subsite
+        - path: /foo-subsite1
+          pathType: Exact
           backend:
-            serviceName: foo-app-service
-            servicePort: 80
-        - path: /bar-subsite
+            service:
+              name: foo-app-service
+              port:
+                number: 80
+        - path: /bar-subsite1
+          pathType: Exact
           backend:
-            serviceName: bar-app-service
-            servicePort: 80
+            service:
+              name: foo-app-service
+              port:
+                number: 80
+    - host: fizz.bar.com
+      http:
+        paths:
+        - path: /bar-app-subsite1
+          pathType: Exact
+          backend:
+            service:
+              name: bar-app-service
+              port:
+                number: 80
+        - path: /bar-app-subsite2
+          pathType: Exact
+          backend:
+            service:
+              name: bar-app-service
+              port:
+                number: 80
