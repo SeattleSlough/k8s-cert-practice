@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-by-url
+spec:
+  rules:
+    - http:
+        paths:
+        - path: /foo-subsite
+          backend:
+            serviceName: foo-app-service
+            servicePort: 80
+        - path: /bar-subsite
+          backend:
+            serviceName: bar-app-service
+            servicePort: 80

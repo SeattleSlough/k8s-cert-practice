@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-by-host
+spec:
+  - host: foo.website.com
+    http:
+      paths:
+        serviceName: foo-app-service
+        servicePort: 80
+
+  - host: bar.website.com
+    http:
+      paths:
+        serviceName: bar-app-service
+        servicePort: 80

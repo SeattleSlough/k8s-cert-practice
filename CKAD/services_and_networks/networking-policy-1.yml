@@ -1,0 +1,43 @@
+apiVersion: network.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+    - Ingress # best practice is to have only ingress for dbs
+    - Egress
+  ingress:
+    - from: # each array below is its own ruleset
+      - podSelector: # grouping selectors is an AND rule (name: api-pod AND name: prod)
+          matchLabels:
+            name: api-pod
+        namespaceSelector:  # without this, all pods with the name: api-pod would be aable to connect to db
+          matchLabels:
+            name: prod
+      - ipBlock:  # traffic from source outside the cluster.  This is an OR rule with the selector rule
+          cidr: 192.168.5.10/32
+      - namespaceSelector:  # this is an OR rule with ipBlock and the first selctor block
+          matchLabels:
+            name: dev
+      ports:
+        - protocol: TCP
+          port: 3306
+  egress:  # suppose the db has an agent that pushes data to an external backup server
+    - to:
+        - ipBlock:
+            cidr: 192.168.5.10/32
+        # - podSelector:
+        #     matchLabels:
+        #       name: some-pod
+        # - namespaceSelector:
+        #     matchLabels:
+        #       name: some-namespace
+      ports:
+        - protocol: TCP
+          port: 80  # port of destination
+# NOTE!!!
+# Network Policy objects only supported by the folowing Networking Solutions: Calico, Kube-router, Romana, Weave-net
+# Flannel does NOT support network policies

@@ -1,0 +1,8 @@
+apiVersion: extentions/v1beta1 # this is unique to nginx, might vary for other controllers
+kind: Ingress
+metadata:
+  name: ingress-frontend-app
+spec:
+  backend:
+    serviceName: fromtend-app-service
+    servicePort: 80

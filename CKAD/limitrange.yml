@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: LimitRange # applicable at the namespace level
-metadata: my-limit-range
+metadata:
+  name: my-limit-range
 spec:
   limits:
     - default:

@@ -26,7 +26,7 @@ spec:
             - configMapRef:
                 name: app-config1
           securityContext:
-            runAsUser: bar  # takes precedent over pod level context
+            runAsUser: 1000  # takes precedent over pod level context, must be integrer
             capabilities:  # which admin capabilities are getting added or dropped
               add: ["MAC_ADMIN"]
               drop: ["something else"]
