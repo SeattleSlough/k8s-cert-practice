@@ -4,13 +4,17 @@ metadata:
   name: cpu-resource-constraint
   namespace: dev
 spec:
-  limit:
+  limits:
     - default:
         cpu: 500m
+        memory: 1 Gi
       defaultRequest:
         cpu: 500m
+        memory: 1 Gi
       max:
-        cpu: 1
+        cpu: 2
+        memory: 3 Gi
       min:
         cpu: 100m
+        memory: 0.5 Gi
       type: Container
