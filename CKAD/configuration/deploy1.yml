@@ -25,11 +25,19 @@ spec:
           envFrom:
             - configMapRef:
                 name: app-config1
+            - secretRef:
+                name: secret-1
+          env:
+            - name: FOO_BAR
+              valueFrom:
+                configMapKeyRef:
+                  key: FOO_BAR
+                  name: app-config1
           securityContext:
             runAsUser: 1000
             capabilities:
               add: ["MAC_ADMIN"]
-              drop:
+              drop: ["SYS_TIME"]
           resources:
             requests:
               cpu: 100m # same as 0.1
@@ -37,5 +45,48 @@ spec:
             limits:
               cpu: 2
               memory: "2Gi"
+      tolerations:
+        - key: spray
+          operator: "Equal"
+          value: blue
+          effect: NoSchedule
+      serviceAccountName: sa-1
+      automountServiceAccountToken: true
+      nodeSelector:
+        size: Large # label needs to be set on node --> kubectl label nodes <node-name> key=value
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: size
+                operator: In
+                values:
+                - Large
+                - Medium
+              - key: size
+                operator: NotIn
+                values:
+                  - Small
+              - key: color
+                operator: Exists
+                values:
+                - white
+              - key: color
+                operator: DoesNotExist
+                values:
+                - red
+                - black
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1 # between 1 - 100
+            preference:
+              matchExpressions:
+                - key: color
+                  operator: In
+                  values:
+                    - blue
+                    - green
+
+
 
 
