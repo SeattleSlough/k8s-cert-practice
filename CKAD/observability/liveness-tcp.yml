@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-tcp
+  labels:
+    app: myos
+spec:
+  containers:
+    - name: ubuntu
+      image: ubuntu
+      livenessProbe:
+        tcpSocket:
+          port: 3306
+        initialDelaySeconds: 20
+        periodSeconds: 5
+        failureThreshold: 4
