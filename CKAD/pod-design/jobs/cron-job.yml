@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cron-reporting-job
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      completions: 3
+      parallelism: 3
+      template:
+        spec:
+          containers:
+            - name: reporting-job
+              image: reporting-job
+          restartPolicy: Never
