@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rollout
+  labels:
+    type: front-end
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+        - name: myapp-pod
+          image: nginx:1.7.1
+          ports:
+            - containerPort: 80
+  strategy:
+    type: RollingUpdate # Recreate or RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
