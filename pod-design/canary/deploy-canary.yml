@@ -3,14 +3,15 @@ kind: Deployment
 metadata:
   name: myapp-canary
   labels:
-    version: v2
+    app: myapp
     type: front-end
 spec:
   template:
     metadata:
-      name: myapp-pod
+      name: myapp-container
       labels:
         version: v2
+        app: front-end
     spec:
       containers:
         - name: myapp
@@ -18,4 +19,4 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      version: v2
+      app: front-end

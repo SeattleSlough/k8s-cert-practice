@@ -4,4 +4,4 @@ metadata:
   name: my-service
 spec:
   selector:
-    type: front-end
+    app: front-end
