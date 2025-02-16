@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: random-error-job
+spec:
+  completions: 3
+  parallelism: 3 # will start 3 pods and will restart only number of pods needed to complete 3 successfully
+  template:
+    spec:
+      containers:
+        - name: random-error
+          image: kodekloud/random-error
+
+      restartPolicy: Never
