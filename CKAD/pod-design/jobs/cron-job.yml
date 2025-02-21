@@ -11,6 +11,6 @@ spec:
       template:
         spec:
           containers:
-            - name: reporting-job
-              image: reporting-job
+          - name: reporting-job
+            image: reporting-job
           restartPolicy: Never

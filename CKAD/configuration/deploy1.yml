@@ -16,40 +16,40 @@ spec:
         app: backend
     spec:
       containers:
-        - name: nginx
-          image: nginx
-          ports:
-            - containerPort: 80
-          command: ["cat"]
-          args: ["etc/*release*"]
-          envFrom:
-            - configMapRef:
-                name: app-config1
-            - secretRef:
-                name: secret-1
-          env:
-            - name: FOO_BAR
-              valueFrom:
-                configMapKeyRef:
-                  key: FOO_BAR
-                  name: app-config1
-          securityContext:
-            runAsUser: 1000
-            capabilities:
-              add: ["MAC_ADMIN"]
-              drop: ["SYS_TIME"]
-          resources:
-            requests:
-              cpu: 100m # same as 0.1
-              memory: "1Gi"
-            limits:
-              cpu: 2
-              memory: "2Gi"
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        command: [ "cat" ]
+        args: [ "etc/*release*" ]
+        envFrom:
+        - configMapRef:
+            name: app-config1
+        - secretRef:
+            name: secret-1
+        env:
+        - name: FOO_BAR
+          valueFrom:
+            configMapKeyRef:
+              key: FOO_BAR
+              name: app-config1
+        securityContext:
+          runAsUser: 1000
+          capabilities:
+            add: [ "MAC_ADMIN" ]
+            drop: [ "SYS_TIME" ]
+        resources:
+          requests:
+            cpu: 100m # same as 0.1
+            memory: "1Gi"
+          limits:
+            cpu: 2
+            memory: "2Gi"
       tolerations:
-        - key: spray
-          operator: "Equal"
-          value: blue
-          effect: NoSchedule
+      - key: spray
+        operator: "Equal"
+        value: blue
+        effect: NoSchedule
       serviceAccountName: sa-1
       automountServiceAccountToken: true
       nodeSelector:
@@ -67,7 +67,7 @@ spec:
               - key: size
                 operator: NotIn
                 values:
-                  - Small
+                - Small
               - key: color
                 operator: Exists
               - key: color
@@ -79,12 +79,8 @@ spec:
           - weight: 1 # between 1 - 100
             preference:
               matchExpressions:
-                - key: color
-                  operator: In
-                  values:
-                    - blue
-                    - green
-
-
-
-
+              - key: color
+                operator: In
+                values:
+                - blue
+                - green
