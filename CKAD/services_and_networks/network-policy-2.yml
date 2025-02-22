@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-network-policy
+spec:
+  podSelector:  # to which pod(s) does this rule apply?
+    matchLabels:
+      role: db
+  policyTypes:
+  - Egress
+  - Ingress
+  ingress:
+  - from: #  Each array is its own ruleset
+    - podSelector:  # RULE 1: traffic from which pod(s)
+        matchLabels: # Condition 1 of Rule 1
+          name: api-pod
+      # AND
+      namespaceSelector:  # Condition 2 of Rule 1
+        matchLabels:
+          name: prod
+    # OR
+    - ipBlock:  # RULE 2, condition 1
+        cidr: 192.168.5.10/32
+    ports:
+    - protocol: TCP
+      port: 3306
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 192.168.5.10/32
+    ports:
+      - protocol: TCF
+        port: 80
+
+
