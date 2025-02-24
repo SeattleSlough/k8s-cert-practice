@@ -1,45 +1,33 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-by-url
+  name: ingress-frontend-app
+  annotations:
+    nginx.kubernetes.io/use-reg-ex: "true"
 spec:
-  tls:
+  tls: # this is how https gets set up
     - hosts:
-      - baz.foo.com
-      - bar.fizz.com
+      - example.com
       secretName: example-secret
+  defaultBackend:
+    service:
+      name: default-backend
+      port:
+        number: 80
   rules:
-    - host: baz.foo.com
-      http:
-        paths:
-        - path: /foo-subsite1
-          pathType: Exact
-          backend:
-            service:
-              name: foo-app-service
-              port:
-                number: 80
-        - path: /bar-subsite1
-          pathType: Exact
-          backend:
-            service:
-              name: foo-app-service
-              port:
-                number: 80
-    - host: fizz.bar.com
-      http:
-        paths:
-        - path: /bar-app-subsite1
-          pathType: Exact
-          backend:
-            service:
-              name: bar-app-service
-              port:
-                number: 80
-        - path: /bar-app-subsite2
-          pathType: Exact
-          backend:
-            service:
-              name: bar-app-service
-              port:
-                number: 80
+  - http:
+      paths:
+      - path: /foo
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: foo-deployment-service
+            port:
+              number: 80
+      - path: /bar
+        pathType: Prefix
+        backend:
+          service:
+            name: bar-deployment-service
+            port:
+              number: 80

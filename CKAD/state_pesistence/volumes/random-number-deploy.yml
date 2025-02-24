@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: random-number-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: random
+  template:
+    metadata:
+      name: random-pod
+      labels:
+        name: random
+    spec:
+      containers:
+      - name: alpine
+        image: alpine
+        command: ["/bin/sh"]
+        args:
+          - "-c"
+          - "shuf -i 0-100 -n 1 >> /opt/number.out;"
+        volumeMounts:
+        - mountPath: /opt
+          name: data-volume
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /data # on the node of the container...not recommended
+          type: Directory
+      - name: ebs-volume
+        awsElasticBlockStore:
+          volumeID: <volume-id>
+          fsType: ext4
