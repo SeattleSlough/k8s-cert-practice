@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  serviceName: mysql-h  # this is how it knows what subdoain to assign to the pod
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql
+      subdomain: foo # !!!! manally crete subdomain...not needed w/statefulset !!!!
+      hostname: bar # !!!! manuall assign hostname...not needed w/stateful set !!!!
+  volumeClaimTemplates:
+  - metadata:
+      name: data-volume
+    spec:
+      accessModes:
+      - WriteOnceReadMany
+      resources:
+        requests:
+          storage: 500Mi
+      storageClassName: google-storage
+  podManagementPolicy: Parallel  # if you don't want OrderedReady which is the default
+
+
+  # this results in a dns record: mysql-pod.mysql-h.default.svc.cluster.local
