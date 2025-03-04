@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Config
+
+current-context: dev-user@google  # default context
+
+clusters:
+- name: my-kube-playground
+  cluster:
+    certificate-authority: ca.crt
+    server: https://my-kube-playground:6443
+- name: development
+- name: production
+- name: google
+
+contexts:
+- name: my-kube-admin@my-kube-playground
+  context:
+    cluster: my-kube-playground
+    user: my-kube-admin
+    namespace: finance
+- name: dev-user@google
+  context:
+    cluster: google
+    user: dev-user
+- name: prod-user@production
+  context:
+    cluster: production
+    user: prod-user
+
+users:
+- name: my-kube-admin
+  user:
+    client-certificate: admin.crt
+    client-key: admin.key
+- name: admin
+- name: dev-user
+- name: prod-user
