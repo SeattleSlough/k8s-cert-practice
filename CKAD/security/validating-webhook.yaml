@@ -10,6 +10,8 @@ webhooks:
       namespace: "webhook-namespace"
       name: "webhook-service"
     caBundle: "CiotL....tLS0K"
+  sideEffects: "none"  # ignore this valus...no idea if correct
+  admissionReviewVersions: [] # should be an array of versions
   rules:
   - apiGroups: [ "" ]
     apiVersions: [ "v1" ]
